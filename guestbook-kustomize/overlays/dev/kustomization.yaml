@@ -1,0 +1,12 @@
+---
+namePrefix: dev-
+resources:
+  - ../../base
+  - namespace.yaml
+
+
+patches:
+  - path: deployment-patch.yaml
+    target:
+      kind: Deployment
+      name: guestbook

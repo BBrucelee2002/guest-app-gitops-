@@ -1,0 +1,27 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook-applicationset
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - env: dev
+  template:
+    metadata:
+      name: 'guestbook-{{env}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/BBrucelee2002/guest-app-gitops-.git
+        targetRevision: HEAD
+        path: overlays/{{env}}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: guestbook-{{env}}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
